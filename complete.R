@@ -1,15 +1,17 @@
 complete <- function(directory, id = 1:332) {
-  setwd("C:/Coursera/R Programming/specdata")
-  files <- list.files( path = directory )[id]
-  files <- files[!is.na(files)]
+  ## 'directory' is a character vector of length 1 indicating the location of
+  ## the CSV files
   
-  id <- c()
-  nobs <- c() 
+  ## 'id' is an integer vector indicating the monitor ID numbers to be used
   
-  for(f in 1:length(files)){
-    data <- read.csv( paste(directory, "/", files[f], sep=",", header=TRUE) )
-    id = c(id, as.integer(substring(files[f],0,3)) )                       # append to vector
-    nobs = c(nobs, nrow(na.omit(data))) # append to vector, num rows, omit NA
+  ## Return a data frame of the form: id nobs 1 117 2 1041 ...  where 'id' is
+  ## the monitor ID number and 'nobs' is the number of complete cases
+  nobs = numeric()
+  for (i in id) {
+    
+    newRead = read.csv(paste(directory, "/", formatC(i, width = 3, flag = "0"), 
+                             ".csv", sep = ""))
+    nobs = c(nobs, sum(complete.cases(newRead)))
   }
-  return( data.frame(id=id, nobs=nobs) )
+  return(data.frame(id, nobs))
 }
