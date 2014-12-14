@@ -6,6 +6,7 @@ complete <- function(directory, id = 1:332) {
   
   ## Return a data frame of the form: id nobs 1 117 2 1041 ...  where 'id' is
   ## the monitor ID number and 'nobs' is the number of complete cases
+  setwd("C:/Coursera/R Programming/specdata")
   nobs = numeric()
   for (i in id) {
     
